@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { SnackCard, SnackModal, CheckoutModal, Customer, Historic } from '../index.js'
 import { convertValueIntoCurrency } from '../../utils/index.js'
@@ -26,13 +26,16 @@ export const DragDrops = () => {
       customer, setCustomer,
    } = useContext(ApplicationContext)
 
+   /** usar uma referência porque a atualização do estado não é entendida na mesma hora */
+   const listSnacksRef = useRef(listSnacks)
 
    /** verifica se foram adicionados novos lanches na lista e atualiza preço total */
    useEffect(() => {
       let value = 0
       board.map(snack => value += snack.qtd * snack.price)
       setAmount(value)
-   }, [board, setAmount])
+      listSnacksRef.current = listSnacks
+   }, [board, setAmount, listSnacks])
 
    /** funcão para identificar quando arrasta um lanche para lista */
    const [{ isOver }, drop] = useDrop(() => ({
@@ -43,13 +46,8 @@ export const DragDrops = () => {
 
    /** funcão para adicionar lanches na lista ao arrastar */
    function AddSnackToBoard(id) {
-      const newListSnack = [...listSnacks]
+      const newListSnack = listSnacksRef.current
       const snackIndex = newListSnack.findIndex(snack => id === snack.id)
-
-      console.log('listSnacks', listSnacks)
-      console.log('lista onde vou pesquisar', newListSnack)
-      console.log('id', id)
-      console.log('item a ser add', newListSnack[snackIndex])
 
       /** considera a quantidade mínima do pedido como 1 item */
       newListSnack[snackIndex].qtd = 1
@@ -59,14 +57,13 @@ export const DragDrops = () => {
 
       setListSnacks(newListSnack)
 
-
       /** adiciona esse lanche a bancada */
       setBoard(prevState => [...prevState, newListSnack[snackIndex]]);
    }
 
    /** funcão para remover lanches na lista ao clicar no botão */
    function RemoveSnackToBoard(id) {
-      const newListSnack = [...listSnacks]
+      const newListSnack = listSnacksRef.current
       const snackIndex = newListSnack.findIndex(snack => id === snack.id)
 
       /** disponibiliza o lanche para escolha novamente */
@@ -137,7 +134,6 @@ export const DragDrops = () => {
 
             <h2>Valor total: {convertValueIntoCurrency(amount)}</h2>
          </ContainerCliente>
-
 
          {/** Modal da notinha da compra */}
          {checkoutModalIsOpen && (

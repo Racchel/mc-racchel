@@ -29,7 +29,7 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
          image: image
       }
 
-      setListSnacks([...listSnacks, newSnack])
+      setListSnacks(prevState => [...prevState, newSnack])
 
       setName('')
       setPrice(0)
