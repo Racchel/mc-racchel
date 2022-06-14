@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { SnackCard, SnackModal, CheckoutModal, Customer, Historic } from '../index.js'
 import { convertValueIntoCurrency } from '../../utils/index.js'
@@ -6,15 +6,20 @@ import { ApplicationContext } from '../../shared/context/index.js'
 
 import {
    Container,
-   ContainerCliente,
-   ContainerLanches
+   SnackContainer,
+   SnackContent,
+   CustomerContainer,
+   CustomerContent,
+   PurchaseBox,
+   PurchaseContainer,
+   PurchaseContent,
+   Amount
 } from './style.js'
 
 
 export const DragDrops = () => {
    const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
    const [historicModalIsOpen, setHistoricModalIsOpen] = useState(false)
-   const [snackModalIsOpen, setSnackModalIsOpen] = useState(false)
 
    const {
       listSnacks, setListSnacks,
@@ -24,6 +29,8 @@ export const DragDrops = () => {
       amount, setAmount,
       count, setCount,
       customer, setCustomer,
+      addSnackModalIsOpen, setAddSnackModalIsOpen,
+      editSnackModalIsOpen, setEditSnackModalIsOpen, handleEditSnackModal
    } = useContext(ApplicationContext)
 
    /** usar uma referência porque a atualização do estado não é entendida na mesma hora */
@@ -111,29 +118,35 @@ export const DragDrops = () => {
 
 
    return (
-      <Container>
+      <Container >
 
          {/** Lanches para escolha */}
-         <ContainerLanches>
-            {listSnacks.map((snack) => (
-               <SnackCard key={snack.id} snack={snack} isNameable />
-            ))}
-         </ContainerLanches>
+         <SnackContainer>
+            <SnackContent>
+               {listSnacks.map((snack) => (
+                  <SnackCard key={snack.id} snack={snack} isNameable isAdmin />
+               ))}
+            </SnackContent>
+         </SnackContainer>
 
          {/** Bancada com lanches escolhidos pelo cliente */}
-         <ContainerCliente ref={drop}>
-            {board.map((snack) => (
-               <SnackCard
-                  key={snack.id}
-                  snack={snack}
-                  isRemovable
-                  isQuantifiable
-                  handleClick={(id) => RemoveSnackToBoard(id)}
-               />
-            ))}
-
-            <h2>Valor total: {convertValueIntoCurrency(amount)}</h2>
-         </ContainerCliente>
+         <PurchaseBox>
+            <Amount>Valor total: {convertValueIntoCurrency(amount)}</Amount>
+            <PurchaseContainer ref={drop}>
+               <PurchaseContent >
+                  {board.map((snack) => (
+                     <SnackCard
+                        key={snack.id}
+                        snack={snack}
+                        isRemovable
+                        isQuantifiable
+                        handleClick={(id) => RemoveSnackToBoard(id)}
+                     />
+                  ))}
+               </PurchaseContent>
+            </PurchaseContainer>
+            <Customer customer={customer} />
+         </PurchaseBox>
 
          {/** Modal da notinha da compra */}
          {checkoutModalIsOpen && (
@@ -156,26 +169,29 @@ export const DragDrops = () => {
          )}
 
          {/** Modal de adicionar lanche */}
-         {snackModalIsOpen && (
-            <SnackModal
-               handleClickToClose={() => setSnackModalIsOpen(!snackModalIsOpen)}
-            />
+         {addSnackModalIsOpen && (
+            <SnackModal handleClickToClose={() => setAddSnackModalIsOpen(!addSnackModalIsOpen)} />
+         )}
+
+         {/** Modal de editar lanche */}
+         {editSnackModalIsOpen && (
+            <SnackModal handleClickToClose={() => setEditSnackModalIsOpen(!editSnackModalIsOpen)} />
          )}
 
          {/** Cliente da vez */}
-         <Customer customer={customer} />
+         <CustomerContainer>
+            <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
+               {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
+            </button>
 
-         <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
-            {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
-         </button>
+            <button onClick={() => setAddSnackModalIsOpen(!addSnackModalIsOpen)}>
+               {addSnackModalIsOpen ? 'Fechar modal' : 'Adicionar produto'}
+            </button>
 
-         <button onClick={() => setSnackModalIsOpen(!snackModalIsOpen)}>
-            {snackModalIsOpen ? 'Fechar modal' : 'Adicionar produto'}
-         </button>
-
-         <button onClick={() => setCheckoutModalIsOpen(!checkoutModalIsOpen)}>
-            {checkoutModalIsOpen ? 'Fechar a notinha' : 'Abrir a notinha'}
-         </button>
+            <button onClick={() => setCheckoutModalIsOpen(!checkoutModalIsOpen)}>
+               {checkoutModalIsOpen ? 'Fechar a notinha' : 'Abrir a notinha'}
+            </button>
+         </CustomerContainer>
       </Container>
    )
 }

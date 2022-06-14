@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ApplicationContext } from '../../shared/context/index.js'
 // import { convertValueIntoCurrency } from '../../utils/index.js'
 import { v4 as uuidv4 } from 'uuid'
@@ -9,16 +9,31 @@ import {
 
 export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
 
+   const [id, setId] = useState(0)
    const [name, setName] = useState('')
    const [price, setPrice] = useState(0)
    const [image, setImage] = useState('')
 
    const {
-      listSnacks, setListSnacks
+      listSnacks, setListSnacks,
+      editSnack, setEditSnack,
+      setEditSnackModalIsOpen
    } = useContext(ApplicationContext)
 
+   useEffect(() => {
+      setId(editSnack.id)
+      setName(editSnack.name)
+      setPrice(editSnack.price)
+      setImage(editSnack.image)
+   }, [editSnack])
+
+
    function handleSubmit(e) {
+
       e.preventDefault()
+
+      if (!name || !price || !image) return
+
 
       const newSnack = {
          id: uuidv4(),
@@ -29,17 +44,31 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
          image: image
       }
 
-      setListSnacks(prevState => [...prevState, newSnack])
+      if (id) {
+         console.log('entrou no if')
+         const newListSnack = [...listSnacks]
+         const snackIndex = newListSnack.findIndex(snack => id === snack.id)
+         newListSnack[snackIndex] = newSnack
+         setListSnacks(newListSnack)
+         setEditSnackModalIsOpen(false)
+      } else {
+         console.log('entrou no else')
+         setListSnacks(prevState => [...prevState, newSnack])
+      }
 
       setName('')
       setPrice(0)
       setImage('')
+      setEditSnack({})
    }
 
    return (
       <Content>
-         <Title>Adicionar Lanche
-            <button onClick={() => handleClickToClose()}>X</button>
+         <Title>{id ? 'Editar lanche' : 'Adicionar Lanche'}
+            <button onClick={() => {
+               setEditSnack({})
+               handleClickToClose()
+            }}>X</button>
          </Title>
 
          <Form onSubmit={(e) => { handleSubmit(e) }}>
@@ -73,7 +102,7 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
                />
             </Label>
 
-            <button type='submit' onClick={(e) => handleSubmit(e)}>Adicionar lanche</button>
+            <button type='submit' onClick={(e) => handleSubmit(e)}>{id ? 'Salvar alterações' : 'Adicionar'}</button>
          </Form>
       </Content>
    )

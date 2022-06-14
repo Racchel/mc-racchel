@@ -15,6 +15,18 @@ function App() {
   const [listSnacks, setListSnacks] = useState(SnackList)
   const [listCustomers, setListCustomers] = useState(CustomersList)
 
+  const [addSnackModalIsOpen, setAddSnackModalIsOpen] = useState(false)
+  const [editSnackModalIsOpen, setEditSnackModalIsOpen] = useState(false)
+  const [editSnack, setEditSnack] = useState({})
+
+  function handleEditSnackModal(editSnack) {
+    setEditSnackModalIsOpen(!editSnackModalIsOpen)
+
+    editSnack
+      ? setEditSnack(editSnack)
+      : setEditSnack({})
+  }
+
   return (
     <ApplicationContext.Provider value={{
       listSnacks, setListSnacks,
@@ -24,6 +36,10 @@ function App() {
       amount, setAmount,
       count, setCount,
       customer, setCustomer,
+
+      addSnackModalIsOpen, setAddSnackModalIsOpen,
+      editSnackModalIsOpen, setEditSnackModalIsOpen, handleEditSnackModal,
+      editSnack, setEditSnack
     }}>
       <DndProvider backend={HTML5Backend}>
         <GlobalStyle />

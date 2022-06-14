@@ -32,5 +32,45 @@ export const SnackList = [
       qtd: 0,
       isChosen: true,
       image: 'https://vejasp.abril.com.br/wp-content/uploads/2016/11/14321_big-mac-jpg.jpeg'
+   },
+   {
+      id: uuidv4(),
+      name: 'Meu lanchinho favorito',
+      price: 18.00,
+      qtd: 0,
+      isChosen: true,
+      image: 'https://entregaz.com.br/getImagem.php?id=19'
+   },
+   {
+      id: uuidv4(),
+      name: 'Milk Shake',
+      price: 12.00,
+      qtd: 0,
+      isChosen: true,
+      image: 'https://www.guiadasemana.com.br/contentFiles/image/opt_w1280h960/2021/01/FEA/66671_shutterstock-526821310.jpg'
+   },
+   {
+      id: uuidv4(),
+      name: 'Pipoca doce',
+      price: 4.00,
+      qtd: 0,
+      isChosen: true,
+      image: 'https://img.itdg.com.br/images/recipes/000/007/269/357304/357304_original.jpg'
+   },
+   {
+      id: uuidv4(),
+      name: 'Sanduiche delicioso',
+      price: 5.00,
+      qtd: 0,
+      isChosen: true,
+      image: 'https://www.mundoboaforma.com.br/wp-content/uploads/2019/08/Sandui%CC%81che-de-frango-e-legumes-com-poder-diure%CC%81tico.jpg'
+   },
+   {
+      id: uuidv4(),
+      name: 'Espetinho misto',
+      price: 12.00,
+      qtd: 0,
+      isChosen: true,
+      image: 'https://cdn.panelinha.com.br/receita/1404702000000-Espetinho-misto.jpg'
    }
 ]

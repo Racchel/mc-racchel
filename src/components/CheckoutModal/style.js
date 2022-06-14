@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colorPalette } from "../../shared/style";
 
 export const Content = styled.div`
    width: 380px;
@@ -12,14 +13,14 @@ export const Content = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
-   border: 1px solid black;
-   background-color: rgba(248,248,255);
+   border: 1px solid ${colorPalette.gray};
+   background-color: ${colorPalette.lightWhite}
 `
 
 export const Title = styled.h2`
    width: 100%;
    text-transform: uppercase;
-   background-color: rgba(255,99,71);
+   background-color: ${colorPalette.darkRed};
    padding: 10px 8px;
    text-align: center;
 `
@@ -41,7 +42,7 @@ export const Table = styled.table`
    text-align: left;
    border-spacing: 5px;
    border-collapse: separate;
-   border: 1px solid gray;
+   border: 1px solid ${colorPalette.gray};
 `
 
 export const THeader = styled.tr``
