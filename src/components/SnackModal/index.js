@@ -34,17 +34,17 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
 
       if (!name || !price || !image) return
 
-
-      const newSnack = {
-         id: uuidv4(),
-         name: name,
-         price: price,
-         qtd: 0,
-         isChosen: true,
-         image: image
-      }
-
       if (id) {
+
+         const newSnack = {
+            id: id,
+            name: name,
+            price: price,
+            qtd: 0,
+            isChosen: true,
+            image: image
+         }
+
          console.log('entrou no if')
          const newListSnack = [...listSnacks]
          const snackIndex = newListSnack.findIndex(snack => id === snack.id)
@@ -52,6 +52,16 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
          setListSnacks(newListSnack)
          setEditSnackModalIsOpen(false)
       } else {
+
+         const newSnack = {
+            id: uuidv4(),
+            name: name,
+            price: price,
+            qtd: 0,
+            isChosen: true,
+            image: image
+         }
+
          console.log('entrou no else')
          setListSnacks(prevState => [...prevState, newSnack])
       }
