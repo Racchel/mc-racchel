@@ -4,7 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { GlobalStyle } from './style.js'
 import { DragDrops } from './components/index.js'
 import { ApplicationContext } from './shared/context/index.js'
-import { CustomersList, SnackList } from './shared/index.js'
+import { CustomersList, SnackList } from './shared/data/index.js'
 
 function App() {
   const [amount, setAmount] = useState(0)
@@ -15,6 +15,8 @@ function App() {
   const [listSnacks, setListSnacks] = useState(SnackList)
   const [listCustomers, setListCustomers] = useState(CustomersList)
 
+  const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
+  const [historicModalIsOpen, setHistoricModalIsOpen] = useState(false)
   const [addSnackModalIsOpen, setAddSnackModalIsOpen] = useState(false)
   const [editSnackModalIsOpen, setEditSnackModalIsOpen] = useState(false)
   const [editSnack, setEditSnack] = useState({})
@@ -37,6 +39,8 @@ function App() {
       count, setCount,
       customer, setCustomer,
 
+      checkoutModalIsOpen, setCheckoutModalIsOpen,
+      historicModalIsOpen, setHistoricModalIsOpen,
       addSnackModalIsOpen, setAddSnackModalIsOpen,
       editSnackModalIsOpen, setEditSnackModalIsOpen, handleEditSnackModal,
       editSnack, setEditSnack

@@ -1,4 +1,4 @@
-import { convertValueIntoCurrency } from '../../utils/index.js'
+import { convertValueIntoCurrency } from '../../../utils/index.js'
 
 import { Content, Title, Body, Amount, Table, THeader, Button } from './style.js'
 

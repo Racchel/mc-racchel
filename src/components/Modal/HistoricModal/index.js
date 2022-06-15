@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { convertValueIntoCurrency } from '../../utils/index.js'
-import { CheckoutModal } from '../CheckoutModal/index.js'
+import { convertValueIntoCurrency } from '../../../utils/index.js'
+import { CheckoutModal } from '../index.js'
 
 import {
    Content,
    Table
 } from './style.js'
 
-export function Historic({ historic, handleClickToClose }) {
+export function HistoricModal({ historic, handleClickToClose }) {
    const [modalIsOpen, setModalIsOpen] = useState(false)
    const [amount, setAmount] = useState(0)
 

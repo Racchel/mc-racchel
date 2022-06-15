@@ -1,9 +1,15 @@
 import { DragDrops } from './DragDrops/index.js'
-import { Picture } from './Picture/index.js'
 import { SnackCard } from './SnackCard/index.js'
-import { CheckoutModal } from './CheckoutModal/index.js'
 import { Customer } from './Customer/index.js'
-import { Historic } from './Historic/index.js'
-import { SnackModal } from './SnackModal/index.js'
+import { SnackContainer } from './SnackContainer/index.js'
+import { CenterContainer } from './CenterContainer/index.js'
+import { PurchaseContainer } from './PurchaseContainer/index.js'
 
-export { DragDrops, Picture, SnackCard, SnackModal, CheckoutModal, Customer, Historic }
+export {
+   DragDrops,
+   SnackContainer,
+   SnackCard,
+   CenterContainer,
+   Customer,
+   PurchaseContainer
+}

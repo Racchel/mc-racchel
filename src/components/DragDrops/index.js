@@ -1,39 +1,27 @@
-import { useContext, useEffect, useRef, useState } from 'react'
-import { useDrop } from 'react-dnd'
-import { SnackCard, SnackModal, CheckoutModal, Customer, Historic } from '../index.js'
-import { convertValueIntoCurrency } from '../../utils/index.js'
+import { useContext, useEffect, useRef } from 'react'
 import { ApplicationContext } from '../../shared/context/index.js'
 
-import {
-   Container,
-   SnackContainer,
-   SnackContent,
-   CenterBox,
-   CenterContent,
-   CustomerContainer,
-   CustomerContent,
-   PurchaseBox,
-   PurchaseContainer,
-   PurchaseContent,
-   Amount,
-   Filter
-} from './style.js'
+/** components */
+import { SnackContainer, CenterContainer, PurchaseContainer } from '../index.js'
+import { CheckoutModal, SnackModal, HistoricModal } from '../Modal/index.js'
 
+/** style */
+import { Container } from './style.js'
 
 export const DragDrops = () => {
-   const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
-   const [historicModalIsOpen, setHistoricModalIsOpen] = useState(false)
-
    const {
       listSnacks, setListSnacks,
-      listCustomers, setListCustomers,
+      listCustomers,
       board, setBoard,
       historic, setHistoric,
       amount, setAmount,
       count, setCount,
       customer, setCustomer,
+
+      checkoutModalIsOpen, setCheckoutModalIsOpen,
+      historicModalIsOpen, setHistoricModalIsOpen,
       addSnackModalIsOpen, setAddSnackModalIsOpen,
-      editSnackModalIsOpen, setEditSnackModalIsOpen, handleEditSnackModal
+      editSnackModalIsOpen, setEditSnackModalIsOpen
    } = useContext(ApplicationContext)
 
    /** usar uma referência porque a atualização do estado não é entendida na mesma hora */
@@ -47,12 +35,6 @@ export const DragDrops = () => {
       listSnacksRef.current = listSnacks
    }, [board, setAmount, listSnacks])
 
-   /** funcão para identificar quando arrasta um lanche para lista */
-   const [{ isOver }, drop] = useDrop(() => ({
-      accept: 'image',
-      drop: (item) => AddSnackToBoard(item.id),
-      collect: (monitor) => ({ isOver: !!monitor.isOver() })
-   }))
 
    /** funcão para adicionar lanches na lista ao arrastar */
    function AddSnackToBoard(id) {
@@ -122,62 +104,13 @@ export const DragDrops = () => {
 
    return (
       <Container >
+         <SnackContainer handleClickOnAdd={AddSnackToBoard} />
+         <CenterContainer />
+         <PurchaseContainer
+            handleAdd={AddSnackToBoard}
+            handleRemove={RemoveSnackToBoard}
+         />
 
-         {/** Lanches para escolha */}
-         <SnackContainer>
-            <SnackContent>
-               {listSnacks.map((snack) => (
-                  <SnackCard key={snack.id}
-                     snack={snack}
-                     isNameable
-                     isAdmin
-                     handleClickOnAdd={(id) => AddSnackToBoard(id)}
-                  />
-               ))}
-            </SnackContent>
-
-         </SnackContainer>
-
-         <CenterBox>
-            <CenterContent>
-               <Filter>Filtrar</Filter>
-               <Customer customer={customer} />
-
-               {/** Cliente da vez */}
-               <CustomerContainer>
-                  <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
-                     {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
-                  </button>
-
-                  <button onClick={() => setAddSnackModalIsOpen(!addSnackModalIsOpen)}>
-                     {addSnackModalIsOpen ? 'Fechar modal' : 'Adicionar produto'}
-                  </button>
-
-                  <button onClick={() => setCheckoutModalIsOpen(!checkoutModalIsOpen)}>
-                     {checkoutModalIsOpen ? 'Fechar a notinha' : 'Abrir a notinha'}
-                  </button>
-               </CustomerContainer>
-            </CenterContent>
-         </CenterBox>
-
-         {/** Bancada com lanches escolhidos pelo cliente */}
-         <PurchaseBox>
-            <Amount>Valor total: {convertValueIntoCurrency(amount)}</Amount>
-            <PurchaseContainer ref={drop}>
-               <PurchaseContent >
-                  {board.map((snack) => (
-                     <SnackCard
-                        key={snack.id}
-                        snack={snack}
-                        isRemovable
-                        isQuantifiable
-                        itsOnBoard
-                        handleClickOnRemove={(id) => RemoveSnackToBoard(id)}
-                     />
-                  ))}
-               </PurchaseContent>
-            </PurchaseContainer>
-         </PurchaseBox>
 
          {/** Modal da notinha da compra */}
          {checkoutModalIsOpen && (
@@ -193,7 +126,7 @@ export const DragDrops = () => {
 
          {/** Modal do histórico da compra */}
          {historicModalIsOpen && (
-            <Historic
+            <HistoricModal
                historic={historic}
                handleClickToClose={() => setHistoricModalIsOpen(!historicModalIsOpen)}
             />

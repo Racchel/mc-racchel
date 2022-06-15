@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colorPalette } from "../../shared/style";
+import { colorPalette } from "../../../shared/style";
 
 export const Content = styled.div`
    width: 380px;

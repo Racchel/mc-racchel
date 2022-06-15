@@ -2,7 +2,7 @@
 
 import { useDrag } from 'react-dnd'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Picture } from '../index.js'
+import { Picture } from './Picture/index.js'
 import { convertValueIntoCurrency } from '../../utils/index.js'
 import { ApplicationContext } from '../../shared/context/index.js'
 
