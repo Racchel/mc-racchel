@@ -2,7 +2,7 @@
 
 import { useDrag } from 'react-dnd'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { Picture, SnackModal } from '../index.js'
+import { Picture } from '../index.js'
 import { convertValueIntoCurrency } from '../../utils/index.js'
 import { ApplicationContext } from '../../shared/context/index.js'
 
@@ -11,6 +11,8 @@ import {
    Content,
    ContentButton,
    Price,
+   Category,
+   AddButton,
    Button
 } from './style.js'
 
@@ -23,7 +25,7 @@ function EditAndDelete({ id, handleDelete, handleEdit }) {
    )
 }
 
-function BoxSnackCard({ isChosen, id, children }) {
+function BoxSnackCard({ isChosen, itsOnBoard, id, children }) {
 
    const [{ isDragging }, drag] = useDrag(() => ({
       type: "image",
@@ -35,17 +37,21 @@ function BoxSnackCard({ isChosen, id, children }) {
 
    /** retornar um componente arrastável ou não */
    return isChosen ? (
-      <Content ref={drag} style={{ border: isDragging ? "5px solid pink" : "0px" }}>
+      <Content ref={drag} isChosen={isChosen} isDragging={isDragging} itsOnBoard={itsOnBoard} >
          {children}
       </Content>
    ) : (
-      <Content style={{ border: isDragging ? "5px solid pink" : "0px" }}>
+      <Content isChosen={isChosen} isDragging={isDragging} itsOnBoard={itsOnBoard} >
          {children}
       </Content>
    )
 }
 
-export function SnackCard({ snack, isNameable, isQuantifiable, isRemovable, isAdmin, handleClick }) {
+export function SnackCard({
+   snack,
+   itsOnBoard, isNameable, isQuantifiable, isRemovable, isAdmin,
+   handleClickOnAdd, handleClickOnRemove
+}) {
    const [qtd, setQtd] = useState(1)
 
    const {
@@ -73,6 +79,11 @@ export function SnackCard({ snack, isNameable, isQuantifiable, isRemovable, isAd
 
    /** função para excluir um lanche da prateleira */
    function HandleDelete(id) {
+      const snackConfirmBoard = board.find((snack) => id === snack.id)
+      if (snackConfirmBoard) {
+         return alert('Você não pode excluir um lanche escolhido por um cliente!')
+      }
+
       const snackConfirm = listSnacksRef.current.find((snack) => id === snack.id)
 
       if (confirm(`Deseja mesmo exluir esse item: ${snackConfirm.name}?`)) {
@@ -82,12 +93,18 @@ export function SnackCard({ snack, isNameable, isQuantifiable, isRemovable, isAd
    }
 
    function HandleEdit(id) {
+      const snackConfirmBoard = board.find((snack) => id === snack.id)
+      if (snackConfirmBoard) {
+         return alert('Você não pode editar um lanche escolhido por um cliente!')
+      }
+
       const editSnack = listSnacksRef.current.find((snack) => id === snack.id)
       handleEditSnackModal(editSnack)
    }
 
    return (
-      <BoxSnackCard isChosen={snack.isChosen} id={snack.id}>
+      <BoxSnackCard isChosen={snack.isChosen} itsOnBoard={itsOnBoard} id={snack.id}>
+         <Category>{snack.category}</Category>
          {isAdmin && (
             <EditAndDelete
                handleEdit={() => (HandleEdit(snack.id))}
@@ -112,7 +129,13 @@ export function SnackCard({ snack, isNameable, isQuantifiable, isRemovable, isAd
          }
 
          {isRemovable && (
-            <Button onClick={() => handleClick(snack.id)}>X</Button>
+            <Button onClick={() => handleClickOnRemove(snack.id)}>X</Button>
+         )}
+
+         {!isRemovable && (
+            <AddButton onClick={() => handleClickOnAdd(snack.id)} disabled={!snack.isChosen}>
+               {snack.isChosen ? '+' : 'V'}
+            </AddButton>
          )}
 
       </BoxSnackCard >

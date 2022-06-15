@@ -8,12 +8,15 @@ import {
    Container,
    SnackContainer,
    SnackContent,
+   CenterBox,
+   CenterContent,
    CustomerContainer,
    CustomerContent,
    PurchaseBox,
    PurchaseContainer,
    PurchaseContent,
-   Amount
+   Amount,
+   Filter
 } from './style.js'
 
 
@@ -124,10 +127,38 @@ export const DragDrops = () => {
          <SnackContainer>
             <SnackContent>
                {listSnacks.map((snack) => (
-                  <SnackCard key={snack.id} snack={snack} isNameable isAdmin />
+                  <SnackCard key={snack.id}
+                     snack={snack}
+                     isNameable
+                     isAdmin
+                     handleClickOnAdd={(id) => AddSnackToBoard(id)}
+                  />
                ))}
             </SnackContent>
+
          </SnackContainer>
+
+         <CenterBox>
+            <CenterContent>
+               <Filter>Filtrar</Filter>
+               <Customer customer={customer} />
+
+               {/** Cliente da vez */}
+               <CustomerContainer>
+                  <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
+                     {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
+                  </button>
+
+                  <button onClick={() => setAddSnackModalIsOpen(!addSnackModalIsOpen)}>
+                     {addSnackModalIsOpen ? 'Fechar modal' : 'Adicionar produto'}
+                  </button>
+
+                  <button onClick={() => setCheckoutModalIsOpen(!checkoutModalIsOpen)}>
+                     {checkoutModalIsOpen ? 'Fechar a notinha' : 'Abrir a notinha'}
+                  </button>
+               </CustomerContainer>
+            </CenterContent>
+         </CenterBox>
 
          {/** Bancada com lanches escolhidos pelo cliente */}
          <PurchaseBox>
@@ -140,12 +171,12 @@ export const DragDrops = () => {
                         snack={snack}
                         isRemovable
                         isQuantifiable
-                        handleClick={(id) => RemoveSnackToBoard(id)}
+                        itsOnBoard
+                        handleClickOnRemove={(id) => RemoveSnackToBoard(id)}
                      />
                   ))}
                </PurchaseContent>
             </PurchaseContainer>
-            <Customer customer={customer} />
          </PurchaseBox>
 
          {/** Modal da notinha da compra */}
@@ -177,21 +208,6 @@ export const DragDrops = () => {
          {editSnackModalIsOpen && (
             <SnackModal handleClickToClose={() => setEditSnackModalIsOpen(!editSnackModalIsOpen)} />
          )}
-
-         {/** Cliente da vez */}
-         <CustomerContainer>
-            <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
-               {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
-            </button>
-
-            <button onClick={() => setAddSnackModalIsOpen(!addSnackModalIsOpen)}>
-               {addSnackModalIsOpen ? 'Fechar modal' : 'Adicionar produto'}
-            </button>
-
-            <button onClick={() => setCheckoutModalIsOpen(!checkoutModalIsOpen)}>
-               {checkoutModalIsOpen ? 'Fechar a notinha' : 'Abrir a notinha'}
-            </button>
-         </CustomerContainer>
       </Container>
    )
 }

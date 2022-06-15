@@ -1,13 +1,14 @@
 import {
    Container,
-   Content
+   Content,
+   Name
 } from './style.js'
 
 export function Customer({ customer }) {
    return (
       <Container>
+         <Name>{customer.name}</Name>
          <Content src={customer.image} alt="" />
-         <p>{customer.name}</p>
       </Container>
    )
 }
