@@ -8,23 +8,27 @@ import {
 } from './style.js'
 
 export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
-
-   const [id, setId] = useState(0)
-   const [name, setName] = useState('')
-   const [price, setPrice] = useState(0)
-   const [image, setImage] = useState('')
-
    const {
+      listCategories, setListCategories,
       listSnacks, setListSnacks,
       editSnack, setEditSnack,
       setEditSnackModalIsOpen
    } = useContext(ApplicationContext)
 
+   const [id, setId] = useState(0)
+   const [name, setName] = useState('')
+   const [price, setPrice] = useState(0)
+   const [image, setImage] = useState('')
+   const [category, setCategory] = useState(listCategories[0].name)
+
    useEffect(() => {
-      setId(editSnack.id)
-      setName(editSnack.name)
-      setPrice(editSnack.price)
-      setImage(editSnack.image)
+      if (editSnack.id) {
+         setId(editSnack.id)
+         setName(editSnack.name)
+         setPrice(editSnack.price)
+         setImage(editSnack.image)
+         setCategory(editSnack?.category)
+      }
    }, [editSnack])
 
 
@@ -32,7 +36,7 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
 
       e.preventDefault()
 
-      if (!name || !price || !image) return
+      if (!name || !price || !image) return alert('Preencha todos os campos!')
 
       if (id) {
 
@@ -42,10 +46,9 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
             price: price,
             qtd: 0,
             isChosen: true,
-            image: image
+            image: image,
+            category: category
          }
-
-         console.log('entrou no if')
          const newListSnack = [...listSnacks]
          const snackIndex = newListSnack.findIndex(snack => id === snack.id)
          newListSnack[snackIndex] = newSnack
@@ -59,10 +62,9 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
             price: price,
             qtd: 0,
             isChosen: true,
-            image: image
+            image: image,
+            category: category
          }
-
-         console.log('entrou no else')
          setListSnacks(prevState => [...prevState, newSnack])
       }
 
@@ -110,6 +112,20 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
                   onChange={(e) => { setImage(e.target.value) }}
                   value={image}
                />
+            </Label>
+
+            <Label>
+               <select
+                  required
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+               >
+                  {listCategories.map((categorie) => (
+                     <option key={categorie.id} value={categorie.name}>
+                        {categorie.name}
+                     </option>
+                  ))}
+               </select>
             </Label>
 
             <button type='submit' onClick={(e) => handleSubmit(e)}>{id ? 'Salvar alterações' : 'Adicionar'}</button>

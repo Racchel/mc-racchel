@@ -4,17 +4,21 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { GlobalStyle } from './style.js'
 import { DragDrops } from './components/index.js'
 import { ApplicationContext } from './shared/context/index.js'
-import { CustomersList, SnackList } from './shared/data/index.js'
+import { CustomersList, SnackList, CategoriesList } from './shared/data/index.js'
 
 function App() {
   const [amount, setAmount] = useState(0)
-  const [customer, setCustomer] = useState(CustomersList[0])
   const [count, setCount] = useState(0)
-  const [board, setBoard] = useState([])
-  const [historic, setHistoric] = useState([])
+
+  /** Listas */
+  const [listCategories, setListCategories] = useState(CategoriesList)
   const [listSnacks, setListSnacks] = useState(SnackList)
   const [listCustomers, setListCustomers] = useState(CustomersList)
+  const [board, setBoard] = useState([])
+  const [historic, setHistoric] = useState([])
+  const [customer, setCustomer] = useState(CustomersList[0])
 
+  /** Modal */
   const [checkoutModalIsOpen, setCheckoutModalIsOpen] = useState(false)
   const [historicModalIsOpen, setHistoricModalIsOpen] = useState(false)
   const [addSnackModalIsOpen, setAddSnackModalIsOpen] = useState(false)
@@ -31,12 +35,14 @@ function App() {
 
   return (
     <ApplicationContext.Provider value={{
+      amount, setAmount,
+      count, setCount,
+
+      listCategories, setListCategories,
       listSnacks, setListSnacks,
       listCustomers, setListCustomers,
       board, setBoard,
       historic, setHistoric,
-      amount, setAmount,
-      count, setCount,
       customer, setCustomer,
 
       checkoutModalIsOpen, setCheckoutModalIsOpen,

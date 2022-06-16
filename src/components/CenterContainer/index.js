@@ -12,6 +12,8 @@ import {
 
 export function CenterContainer() {
    const {
+      listCategories, setListCategories,
+
       customer,
       checkoutModalIsOpen, setCheckoutModalIsOpen,
       historicModalIsOpen, setHistoricModalIsOpen,
@@ -24,12 +26,11 @@ export function CenterContainer() {
          <Content>
             <FilterContent>
                <input type='text' placeholder='Pesquisar por nome' />
-               <select name=' id='>
-                  <option value='lanche'>sem filtro</option>
-                  <option value='lanche'>lanche</option>
-                  <option value='doce'>doce</option>
-                  <option value='bebida'>bebida</option>
-                  <option value='outro'>outro</option>
+               <select>
+                  <option value={0}>sem filtro</option>
+                  {listCategories.map((categorie) => (
+                     <option key={categorie.id} value={categorie.id}>{categorie.name}</option>
+                  ))}
                </select>
                <Filter>Filtrar</Filter>
             </FilterContent>
