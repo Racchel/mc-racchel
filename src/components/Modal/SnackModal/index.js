@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react'
 import { ApplicationContext } from '../../../shared/context/index.js'
-// import { convertValueIntoCurrency } from '../../utils/index.js'
 import { v4 as uuidv4 } from 'uuid'
+import { CustomSelect } from '../../index.js'
 
 import {
    Content, Title, Form, Label
@@ -115,17 +115,11 @@ export function SnackModal({ handleClickToClose, handleClickToSubmit }) {
             </Label>
 
             <Label>
-               <select
-                  required
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-               >
-                  {listCategories.map((categorie) => (
-                     <option key={categorie.id} value={categorie.name}>
-                        {categorie.name}
-                     </option>
-                  ))}
-               </select>
+               <CustomSelect
+                  state={category}
+                  setState={setCategory}
+                  list={listCategories}
+               />
             </Label>
 
             <button type='submit' onClick={(e) => handleSubmit(e)}>{id ? 'Salvar alterações' : 'Adicionar'}</button>

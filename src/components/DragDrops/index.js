@@ -109,6 +109,7 @@ export const DragDrops = () => {
    return (
       <Container >
          <SnackContainer handleClickOnAdd={AddSnackToBoard} />
+
          <CenterContainer handleRemove={RemoveSnackToBoard} />
          <PurchaseContainer
             handleAdd={AddSnackToBoard}

@@ -5,6 +5,7 @@ import { SnackContainer } from './SnackContainer/index.js'
 import { CenterContainer } from './CenterContainer/index.js'
 import { PurchaseContainer } from './PurchaseContainer/index.js'
 import { SnackFilter } from './SnackFilter/index.js'
+import { CustomSelect } from './CustomSelect/index.js'
 
 export {
    DragDrops,
@@ -13,5 +14,6 @@ export {
    CenterContainer,
    Customer,
    PurchaseContainer,
-   SnackFilter
+   SnackFilter,
+   CustomSelect
 }

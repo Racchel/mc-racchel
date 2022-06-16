@@ -31,7 +31,6 @@ export function CenterContainer({ handleRemove }) {
             <SnackFilter />
             <Customer customer={customer} />
 
-            {/** Cliente da vez */}
             <CustomerContainer>
                <button onClick={() => setHistoricModalIsOpen(!historicModalIsOpen)}>
                   {historicModalIsOpen ? 'Fechar histórico' : 'Abrir histórico'}
@@ -46,6 +45,7 @@ export function CenterContainer({ handleRemove }) {
                </button>
             </CustomerContainer>
          </Content>
-      </Container>
+
+      </Container >
    )
 }
