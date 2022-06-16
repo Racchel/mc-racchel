@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { ApplicationContext } from '../../shared/context/index.js'
 
 import {
@@ -10,29 +10,33 @@ export function SnackFilter() {
 
    const {
       filter, setFilter,
+      search, setSearch,
 
       listCategories, setListCategories,
       listSnacks, setListSnacks,
       listSnacksFiltered, setListSnacksFiltered,
    } = useContext(ApplicationContext)
 
-
-   function handleFilter() {
+   useEffect(() => {
       let listSnacksRef = listSnacks
 
-      if (filter !== 'all') {
-         console.log('filter', filter)
-         listSnacksRef = listSnacks.filter(snack => snack.category === filter)
-         console.log('listSnacksRef', listSnacksRef)
-         console.log('entrou no if')
-      }
+      filter !== 'all'
+         ? listSnacksRef = listSnacks.filter(snack => snack.category === filter && snack.name?.toLowerCase().includes(search?.toLowerCase()))
+         : listSnacksRef = listSnacks.filter(snack => snack.name?.toLowerCase().includes(search?.toLowerCase()))
 
       setListSnacksFiltered(listSnacksRef)
-   }
+
+   }, [listSnacks, search, filter, setListSnacksFiltered])
 
    return (
       <Container>
-         <input type='text' placeholder='Pesquisar por nome' />
+         <input
+            type='text'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder='Pesquisar por nome'
+         />
+
          <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
@@ -45,7 +49,6 @@ export function SnackFilter() {
             ))}
          </select>
 
-         <Button onClick={() => handleFilter()}>Filtrar</Button>
       </Container>
    )
 }

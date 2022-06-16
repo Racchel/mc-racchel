@@ -10,6 +10,7 @@ function App() {
   const [amount, setAmount] = useState(0)
   const [count, setCount] = useState(0)
   const [filter, setFilter] = useState('all')
+  const [search, setSearch] = useState('')
 
 
   /** Listas */
@@ -41,6 +42,7 @@ function App() {
       amount, setAmount,
       count, setCount,
       filter, setFilter,
+      search, setSearch,
 
       listCategories, setListCategories,
       listSnacks, setListSnacks,
