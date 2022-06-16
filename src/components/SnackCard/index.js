@@ -36,7 +36,7 @@ function BoxSnackCard({ isChosen, itsOnBoard, id, children }) {
    }));
 
    /** retornar um componente arrastável ou não */
-   return isChosen ? (
+   return itsOnBoard || isChosen ? (
       <Content ref={drag} isChosen={isChosen} isDragging={isDragging} itsOnBoard={itsOnBoard} >
          {children}
       </Content>

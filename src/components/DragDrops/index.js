@@ -28,6 +28,7 @@ export const DragDrops = () => {
 
    /** usar uma referência porque a atualização do estado não é entendida na mesma hora */
    const listSnacksRef = useRef(listSnacks)
+   const boardRef = useRef(board)
 
    /** verifica se foram adicionados novos lanches na lista e atualiza preço total */
    useEffect(() => {
@@ -35,6 +36,7 @@ export const DragDrops = () => {
       board.map(snack => value += snack.qtd * snack.price)
       setAmount(value)
       listSnacksRef.current = listSnacks
+      boardRef.current = board
    }, [board, setAmount, listSnacks])
 
 
@@ -65,7 +67,7 @@ export const DragDrops = () => {
       setListSnacks(newListSnack)
 
       /** remove o lanche da bancada */
-      const snackRemove = board.filter((snack) => id !== snack.id)
+      const snackRemove = boardRef.current.filter((snack) => id !== snack.id)
       setBoard(snackRemove);
    }
 
@@ -107,7 +109,7 @@ export const DragDrops = () => {
    return (
       <Container >
          <SnackContainer handleClickOnAdd={AddSnackToBoard} />
-         <CenterContainer />
+         <CenterContainer handleRemove={RemoveSnackToBoard} />
          <PurchaseContainer
             handleAdd={AddSnackToBoard}
             handleRemove={RemoveSnackToBoard}

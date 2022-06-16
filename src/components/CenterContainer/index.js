@@ -1,5 +1,6 @@
-import { Customer, SnackFilter } from '../index.js'
 import { useContext } from 'react'
+import { useDrop } from 'react-dnd'
+import { Customer, SnackFilter } from '../index.js'
 import { ApplicationContext } from '../../shared/context/index.js'
 
 import {
@@ -8,7 +9,7 @@ import {
    CustomerContainer
 } from './style.js'
 
-export function CenterContainer() {
+export function CenterContainer({ handleRemove }) {
 
    const {
       customer,
@@ -18,9 +19,14 @@ export function CenterContainer() {
       addSnackModalIsOpen, setAddSnackModalIsOpen
    } = useContext(ApplicationContext)
 
+   const [{ isOver }, drop] = useDrop(() => ({
+      accept: 'image',
+      drop: (item) => handleRemove(item.id),
+      collect: (monitor) => ({ isOver: !!monitor.isOver() })
+   }))
 
    return (
-      <Container>
+      <Container ref={drop}>
          <Content>
             <SnackFilter />
             <Customer customer={customer} />
