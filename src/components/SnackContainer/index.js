@@ -5,12 +5,13 @@ import { ApplicationContext } from '../../shared/context'
 
 export function SnackContainer({ handleClickOnAdd }) {
    const {
-      listSnacks
+      listSnacksFiltered,
    } = useContext(ApplicationContext)
+
    return (
       <Container >
          <Content>
-            {listSnacks.map((snack) => (
+            {listSnacksFiltered.map((snack) => (
                <SnackCard key={snack.id}
                   snack={snack}
                   isNameable

@@ -28,12 +28,3 @@ export const CustomerContainer = styled.div`
   right: 0;
   background-color: green;
 `
-
-export const FilterContent = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 20px;
-`
-
-export const Filter = styled.button`
-`

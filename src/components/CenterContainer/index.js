@@ -1,20 +1,18 @@
-import { Customer } from '../index.js'
+import { Customer, SnackFilter } from '../index.js'
 import { useContext } from 'react'
 import { ApplicationContext } from '../../shared/context/index.js'
 
 import {
    Container,
    Content,
-   CustomerContainer,
-   FilterContent,
-   Filter
+   CustomerContainer
 } from './style.js'
 
 export function CenterContainer() {
-   const {
-      listCategories, setListCategories,
 
+   const {
       customer,
+
       checkoutModalIsOpen, setCheckoutModalIsOpen,
       historicModalIsOpen, setHistoricModalIsOpen,
       addSnackModalIsOpen, setAddSnackModalIsOpen
@@ -24,17 +22,7 @@ export function CenterContainer() {
    return (
       <Container>
          <Content>
-            <FilterContent>
-               <input type='text' placeholder='Pesquisar por nome' />
-               <select>
-                  <option value={0}>sem filtro</option>
-                  {listCategories.map((categorie) => (
-                     <option key={categorie.id} value={categorie.id}>{categorie.name}</option>
-                  ))}
-               </select>
-               <Filter>Filtrar</Filter>
-            </FilterContent>
-
+            <SnackFilter />
             <Customer customer={customer} />
 
             {/** Cliente da vez */}

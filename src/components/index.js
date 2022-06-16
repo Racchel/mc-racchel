@@ -4,6 +4,7 @@ import { Customer } from './Customer/index.js'
 import { SnackContainer } from './SnackContainer/index.js'
 import { CenterContainer } from './CenterContainer/index.js'
 import { PurchaseContainer } from './PurchaseContainer/index.js'
+import { SnackFilter } from './SnackFilter/index.js'
 
 export {
    DragDrops,
@@ -11,5 +12,6 @@ export {
    SnackCard,
    CenterContainer,
    Customer,
-   PurchaseContainer
+   PurchaseContainer,
+   SnackFilter
 }

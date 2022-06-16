@@ -9,10 +9,13 @@ import { CustomersList, SnackList, CategoriesList } from './shared/data/index.js
 function App() {
   const [amount, setAmount] = useState(0)
   const [count, setCount] = useState(0)
+  const [filter, setFilter] = useState('all')
+
 
   /** Listas */
   const [listCategories, setListCategories] = useState(CategoriesList)
   const [listSnacks, setListSnacks] = useState(SnackList)
+  const [listSnacksFiltered, setListSnacksFiltered] = useState(SnackList)
   const [listCustomers, setListCustomers] = useState(CustomersList)
   const [board, setBoard] = useState([])
   const [historic, setHistoric] = useState([])
@@ -37,9 +40,11 @@ function App() {
     <ApplicationContext.Provider value={{
       amount, setAmount,
       count, setCount,
+      filter, setFilter,
 
       listCategories, setListCategories,
       listSnacks, setListSnacks,
+      listSnacksFiltered, setListSnacksFiltered,
       listCustomers, setListCustomers,
       board, setBoard,
       historic, setHistoric,

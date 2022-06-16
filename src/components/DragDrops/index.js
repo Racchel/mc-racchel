@@ -10,18 +10,20 @@ import { Container } from './style.js'
 
 export const DragDrops = () => {
    const {
+      amount, setAmount,
+      count, setCount,
+      filter, setFilter,
+
       listSnacks, setListSnacks,
       listCustomers,
       board, setBoard,
       historic, setHistoric,
-      amount, setAmount,
-      count, setCount,
       customer, setCustomer,
 
       checkoutModalIsOpen, setCheckoutModalIsOpen,
       historicModalIsOpen, setHistoricModalIsOpen,
       addSnackModalIsOpen, setAddSnackModalIsOpen,
-      editSnackModalIsOpen, setEditSnackModalIsOpen
+      editSnackModalIsOpen, setEditSnackModalIsOpen,
    } = useContext(ApplicationContext)
 
    /** usar uma referência porque a atualização do estado não é entendida na mesma hora */
